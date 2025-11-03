@@ -1,0 +1,16 @@
+const express = require("express")
+const {getAllusers, getUserByid, getUserQuery} = require("../controllers/userControllers")
+const userRouter = express.Router()
+const isBasicPlan = require ("../middleware/isBasicPlan")
+const isProplan = require("../middleware/isProplan")
+const isProplusplan = require ("../middleware/isProplusplan")
+const isSubcriber = require("../middleware/isSubscriber")
+// userRouter.get("/", getAllusers)
+userRouter.get("/single", getUserByid)
+userRouter.get("/:id", getUserQuery)
+// userRouter.get("/", isBasicPlan, isProplan, isProplusplan, getAllusers )
+userRouter.get("/", isSubcriber, getAllusers)
+// userRouter.get("/", getuserProfile)
+// userRouter.get("/", updateuser)
+
+module.exports = userRouter
