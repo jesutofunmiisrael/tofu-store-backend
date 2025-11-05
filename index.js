@@ -20,6 +20,7 @@ const dotenv = require("dotenv")
 const userRouter = require("./router/userRouter")
 const sendwelcomeEmaill = require ("./mailntemplate/welcomeEmail")
 const cartRouter = require("./router/cartRouter")
+const errorHandeler = require("./middleware/errorHandel")
 dotenv.config()
 
 const PORT = process.env.PORT
@@ -47,6 +48,15 @@ app.listen(PORT, () => {
   app.use("/api/blog", blog)
   app.use("/api/users", userRouter)
   app.use("/api/cart", cartRouter)
+
+app.use("/{any}", errorHandeler)
+
+  app.all("/{any}", (req, res)=>{
+    res.status(404).json({
+      success:false,
+      message:`${req.method} ${req.originalUrl} is not an endpoint on this server`
+    });
+  })
   
 
 // app.get("/products", (req, res) =>{
